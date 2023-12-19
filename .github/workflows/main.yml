@@ -27,20 +27,20 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/api-golang-nutriplant:latest
 
-deployment:
-  needs: build
-  runs-on: ubuntu-latest
-  steps:
-  - name: Deploy to compute engine
-    uses: appleboy/ssh-action@master
-    with:
-      host: ${{ secrets.SSH_HOST }}
-      key: ${{ secrets.SSH_PRIVATE_KEY }}
-      username: ${{ secrets.SSH_USERNAME }}
-      port: ${{ secrets.SSH_PORT }}
-      script: |
-        whoami
-        docker stop api-golang-nutriplant || true && docker rm api-golang-nutriplant || true
-        docker pull api-golang-nutriplant
-        docker run -d --name api-golang-nutriplant -p 8000:8000 ${{ secrets.DOCKER_USERNAME }}/api-golang-nutriplant
+  deployment:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to compute engine
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          username: ${{ secrets.SSH_USERNAME }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            whoami
+            docker stop api-golang-nutriplant || true && docker rm api-golang-nutriplant || true
+            docker pull api-golang-nutriplant
+            docker run -d --name api-golang-nutriplant -p 8000:8000 ${{ secrets.DOCKER_USERNAME }}/api-golang-nutriplant
       
