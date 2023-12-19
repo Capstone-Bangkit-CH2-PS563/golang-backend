@@ -1,7 +1,8 @@
 name: CICD
+
 on:
   push:
-    branches:["CICD"]
+    branches: [ "CICD" ]
 
 jobs:
   build:
