@@ -43,4 +43,3 @@ jobs:
             docker stop api-golang-nutriplant || true && docker rm api-golang-nutriplant || true
             docker pull api-golang-nutriplant
             docker run -d --name api-golang-nutriplant -p 8000:8000 ${{ secrets.DOCKER_USERNAME }}/api-golang-nutriplant
-      
