@@ -8,10 +8,14 @@ COPY go.sum ./
 
 RUN go mod download
 
-COPY . .
+RUN go mod tidy
 
-RUN go build -o /docker-gs-ping
+COPY . ./
+
+COPY .env ./
+
+RUN go build -o /nutriplant
 
 EXPOSE 8080
 
-CMD [ "/docker-gs-ping" ]
+CMD [ "/app/nutriplant" ]
