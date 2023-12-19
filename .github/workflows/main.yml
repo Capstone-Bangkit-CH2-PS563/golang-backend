@@ -1,7 +1,7 @@
 name: CICD
 on:
   push:
-  branches:["CICD"]
+    branches:["CICD"]
 
 jobs:
   build:
@@ -28,7 +28,6 @@ jobs:
 
 deployment:
   needs: build
-  environment: capstone
   runs-on: ubuntu-latest
   steps:
   - name: Deploy to compute engine
