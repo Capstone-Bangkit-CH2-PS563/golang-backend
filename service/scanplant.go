@@ -10,7 +10,6 @@ func CreateScanPlant(req *payload.CreateScanPlantRequest) (resp payload.ManageSc
 
 	newScanPlant := &model.ScanPlant{
 		ScanPlantImage: req.ScanPlantImage,
-		PlantID:        req.PlantID,
 		UserID:         req.UserID,
 	}
 
@@ -19,16 +18,14 @@ func CreateScanPlant(req *payload.CreateScanPlantRequest) (resp payload.ManageSc
 		return
 	}
 
-	plant, err := database.GetPlantById(uint64(newScanPlant.ID))
-	if err != nil {
-		return
-	}
+	// plant, err := database.GetPlantById(uint64(newScanPlant.ID))
+	// if err != nil {
+	// 	return
+	// }
 
 	resp = payload.ManageScanPlantResponse{
 		ScanPlantImage: newScanPlant.ScanPlantImage,
-		PlantID:        newScanPlant.PlantID,
 		UserID:         newScanPlant.UserID,
-		Plant:          plant,
 	}
 
 	return

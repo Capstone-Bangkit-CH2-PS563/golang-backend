@@ -31,7 +31,7 @@ func Routes(e *echo.Echo, db *gorm.DB) {
 	pl.POST("/bookmark", controller.AddBookmarkPlantController, middleware.IsLoggedIn)
 	pl.GET("", controller.GetAllPlantController, middleware.IsLoggedIn)
 	pl.GET("/search", controller.SearchPlantController)
-	pl.GET("/scan", controller.ScanPlantController, middleware.IsLoggedIn) //
+	pl.POST("/scan", controller.ScanPlantController, middleware.IsLoggedIn) //
 
 	us := e.Group("/user", middleware.IsLoggedIn)
 	us.GET("/bookmark", controller.GetBookmarkPlantListByUserIdController)

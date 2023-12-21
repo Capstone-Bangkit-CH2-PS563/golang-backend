@@ -10,7 +10,6 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/gosimple/slug"
 	"github.com/labstack/echo/v4"
 )
 
@@ -51,7 +50,7 @@ func ScanPlantController(c echo.Context) error {
 		return err
 	}
 
-	modelResp, err := http.Post("url_model", "applocation/json", bytes.NewBuffer(jsonPayload))
+	modelResp, err := http.Post("https://nutriplant-model-bbytzq52eq-uc.a.run.app/prediction", "application/json", bytes.NewBuffer(jsonPayload))
 	if err != nil {
 		return err
 	}
@@ -63,27 +62,27 @@ func ScanPlantController(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, "Error To read response body from ML")
 	}
 
-	var respML payload.ResponseBodyFromML
+	var respML payload.PredictionResponse
 
 	err = json.Unmarshal(body, &respML)
 	if err != nil {
-		return c.JSON(http.StatusBadRequest, "Error To unmarshaling JSON response")
+		return c.JSON(http.StatusBadRequest, "Error To unmarshaling JSON response"+err.Error())
 	}
 
-	plant, err := service.GetPlantBySlug(slug.Make(respML.PlantName))
+	// plant, err := service.GetPlantBySlug(slug.Make(respML.Data.VegetablePrediction))
+	// if err != nil {
+	// 	return c.JSON(http.StatusBadRequest, err.Error())
+	// }
+
+	_, err = service.CreateScanPlant(&payloadScanPlant)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 
-	payloadScanPlant.PlantID = plant.ID
-
-	resp, err := service.CreateScanPlant(&payloadScanPlant)
-	if err != nil {
-		return c.JSON(http.StatusBadRequest, err.Error())
-	}
-
-	return c.JSON(http.StatusOK, map[string]interface{}{
-		"Message": resp,
+	return c.JSON(http.StatusOK, payload.Response{
+		Message: "Succes get all plant",
+		Status: http.StatusText(200),
+		Data:    respML,
 	})
 
 }
