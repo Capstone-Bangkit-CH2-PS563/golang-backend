@@ -51,7 +51,7 @@ func ScanPlantController(c echo.Context) error {
 		return err
 	}
 
-	modelResp, err := http.Post("url_model", "applocation/json", bytes.NewBuffer(jsonPayload))
+	modelResp, err := http.Post("url_model", "application/json", bytes.NewBuffer(jsonPayload))
 	if err != nil {
 		return err
 	}
